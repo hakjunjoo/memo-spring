@@ -33,6 +33,12 @@ public class MemoService {
         // DB 조회
         return memoRepository.findAllByOrderByModifiedAtDesc().stream().map(MemoResponseDto::new).toList();
     }
+
+    public List<MemoResponseDto> getMemosByKeyword(String keyword) {
+        // DB 조회
+        return memoRepository.findAllByContentsContainsOrderByModifiedAtDesc(keyword).stream().map(MemoResponseDto::new).toList();
+    }
+
     @Transactional
     public Long updateMemo(Long id, MemoRequestDto requestDto) {
         // 해당 메모가 DB에 존재하는지 확인
@@ -47,7 +53,7 @@ public class MemoService {
         // 해당 메모가 DB에 존재하는지 확인
         Memo memo = findMemo(id);
 
-        // memo 삭제
+        // memo 삭제Q
         memoRepository.delete(memo);
 
         return id;
